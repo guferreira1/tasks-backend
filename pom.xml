@@ -74,10 +74,9 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version>
+				<version>0.8.10</version>
 				<executions>
 					<execution>
-						<id>prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
@@ -88,11 +87,12 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<reportsDirectory>${project.basedir}/target/site/jacoco</reportsDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
-
 </project>
