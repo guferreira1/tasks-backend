@@ -28,7 +28,11 @@ pipeline {
 
         stage ('Quality Gate') {
             steps {
-                waitForQualityGate abortPipeline: true, credentialsId: 'SonarToken'
+                step {
+                    timeout(time: 1, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true, credentialsId: 'SonarToken'
+                    }
+                }
             }
         }
     }
