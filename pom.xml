@@ -88,11 +88,6 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
-						<configuration>
-							<reports>
-								<report>xml</report>
-							</reports>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
