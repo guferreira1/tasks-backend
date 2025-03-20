@@ -9,19 +9,19 @@ pipeline {
     }
 
     stages {
-        stage('Build Backend') {
+        stage ('Build Backend') {
             steps {
                 sh 'mvn clean install package -DskipTests=true'
             }
         }
 
-        stage('Unit Tests') {
+        stage ('Unit Tests') {
             steps {
                 sh 'mvn test'
             }
         }
 
-        stage('Sonar Analysis') {
+        stage ('Sonar Analysis') {
             environment {
                 scannerHome = tool 'SONAR_SCANNER'
             }
@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Quality Gate') {
+        stage ('Quality Gate') {
             steps {
                 script {
                     sleep(5)
@@ -52,6 +52,12 @@ pipeline {
                         waitForQualityGate abortPipeline: true
                     }
                 }
+            }
+        }
+
+        stage ('Deploy Backend') {
+            steps {
+                deploy adapters: [tomcat9(credentialsId: 'TomcatLogin', path: '', url: 'http://host.docker.internal:8001/manager/text')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
             }
         }
     }
