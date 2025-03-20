@@ -7,21 +7,21 @@ pipeline {
         SONAR_COVERAGE_PATH = 'target/site/jacoco/jacoco.xml'
         SONAR_EXCLUSIONS = '**/.mvn/**,**/model/**,**/Application.java'
     }
-    
+
     stages {
-        stage ('Build Backend') {
+        stage('Build Backend') {
             steps {
                 sh 'mvn clean install package -DskipTests=true'
             }
         }
 
-        stage ('Unit Tests') {
+        stage('Unit Tests') {
             steps {
                 sh 'mvn test'
             }
         }
 
-        stage ('Sonar Analysis') {
+        stage('Sonar Analysis') {
             environment {
                 scannerHome = tool 'SONAR_SCANNER'
             }
@@ -44,13 +44,14 @@ pipeline {
             }
         }
 
-        stage ('Quality Gate') {
+        stage('Quality Gate') {
             steps {
                 script {
                     sleep(5)
                     timeout(time: 1, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
                     }
+                }
             }
         }
     }
